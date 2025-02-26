@@ -32,7 +32,11 @@
 						"referenceName": "nycpayrollsummary",
 						"type": "DatasetReference"
 					},
-					"name": "sink2"
+					"name": "sink2",
+					"rejectedDataLinkedService": {
+						"referenceName": "AzureDataLakeStorage1",
+						"type": "LinkedServiceReference"
+					}
 				}
 			],
 			"transformations": [
@@ -153,12 +157,14 @@
 				"     errorHandlingOption: 'stopOnFirstError') ~> sink1",
 				"aggregate1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     partitionFileNames:['nycpayrollsummary.csv'],",
 				"     truncate: true,",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink2"
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink2"
 			]
 		}
 	}

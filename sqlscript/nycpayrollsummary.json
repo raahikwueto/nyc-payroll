@@ -1,0 +1,17 @@
+{
+	"name": "nycpayrollsummary",
+	"properties": {
+		"content": {
+			"query": "IF NOT EXISTS (SELECT * FROM sys.external_file_formats WHERE name = 'SynapseDelimitedTextFormat')\n   CREATE EXTERNAL FILE FORMAT [SynapseDelimitedTextFormat]\n   WITH ( FORMAT_TYPE = DELIMITEDTEXT ,\n          FORMAT_OPTIONS (\n            FIELD_TERMINATOR = ',',\n            USE_TYPE_DEFAULT = FALSE,\n            FIRST_ROW = 2\n           ))\nGO\n-- Storage path where the result set will persist\nIF NOT EXISTS (SELECT * FROM sys.external_data_sources WHERE name = 'abfss://dirstaging@adlsnycpayrollnnamdii.dfs.core.windows.net')\n   CREATE EXTERNAL DATA SOURCE [abfss://dirstaging@adlsnycpayrollnnamdii.dfs.core.windows.net]\n   WITH (\n       LOCATION = 'abfss://dirstaging@adlsnycpayrollnnamdii.dfs.core.windows.net'\n   )\nGO\nCREATE EXTERNAL TABLE [dbo].[NYC_Payroll_Summary](\n[FiscalYear] [int] NULL,\n[AgencyName] [varchar](50) NULL,\n[TotalPaid] [float] NULL\n)\nWITH (\nLOCATION = '/',\nDATA_SOURCE = [abfss://dirstaging@adlsnycpayrollnnamdii.dfs.core.windows.net],\nFILE_FORMAT = [SynapseDelimitedTextFormat]\n)\nGO",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "Udacity",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

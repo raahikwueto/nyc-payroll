@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 1",
+	"properties": {
+		"content": {
+			"query": "SELECT \n    TRY_CAST(TRIM(FiscalYear) AS INT) AS FiscalYear, \n    AgencyName, \n    TRY_CAST(TotalPaid AS FLOAT) AS TotalPaid\nFROM [dbo].[NYC_Payroll_Summary];\n\nSELECT DISTINCT FiscalYear \nFROM [dbo].[NYC_Payroll_Summary] \nWHERE TRY_CAST(FiscalYear AS INT) IS NULL;\n\nSELECT DISTINCT FiscalYear \nFROM [dbo].[NYC_Payroll_Summary];\n\nSELECT DISTINCT AgencyName \nFROM [dbo].[NYC_Payroll_Summary];\n\nSELECT DISTINCT TotalPaid\nFROM [dbo].[NYC_Payroll_Summary];\n\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "Udacity",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
